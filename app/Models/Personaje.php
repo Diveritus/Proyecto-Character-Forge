@@ -21,8 +21,4 @@ class Personaje extends Model
         'objetos_magico',
     ];
 
-    public function characterStat()
-    {
-        return $this->hasOne(CharacterStat::class, 'character_id', 'id');
-    }
 }

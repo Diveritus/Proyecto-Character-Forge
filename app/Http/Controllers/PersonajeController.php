@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Personaje;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use illuminate\View\View;
 
 class PersonajeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $personajes = Personaje::latest()->get();
         return view('index',['personajes'=> $personajes]);
@@ -20,7 +21,7 @@ class PersonajeController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         return view('create');
     }
@@ -51,9 +52,10 @@ class PersonajeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Personaje $personaje)
+    public function show(Personaje $personaje): View
     {
-        //
+        //dd($personaje);
+        return view('show', compact('personaje'));
     }
 
     /**
@@ -61,15 +63,30 @@ class PersonajeController extends Controller
      */
     public function edit(Personaje $personaje)
     {
-        //
+        return view('edit',['personaje'=> $personaje]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Personaje $personaje)
+    public function update(Request $request, Personaje $personaje): RedirectResponse
     {
-        //
+        $request->validate(([
+            'nombre' => 'required',
+            'raza' => 'required|string',
+            'clase' => 'required|string',
+            'puntos_de_golpe' => 'required|integer',
+            'puntos_de_golpe_temporales' => 'required|integer',
+            'trasfondo' => 'required|string',
+            'historia' => 'required|string',
+            'habilidades_especiales' => 'required|string',
+            'objetos_magico' => 'required|string',
+        ]));
+
+        $personaje->update($request->all());
+
+        return redirect()->route('personajes.index')
+            ->with('success', 'Personaje actualizado exitosamente.');
     }
 
     /**

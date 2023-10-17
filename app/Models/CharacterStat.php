@@ -9,18 +9,5 @@ class CharacterStat extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'character_id',
-        'fuerza',
-        'destreza',
-        'constitucion',
-        'inteligencia',
-        'sabiduria',
-        'carisma',
-    ];
     
-    public function personaje()
-    {
-        return $this->belongsTo(Personaje::class, 'id', 'character_id');
-    }
 }
