@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('_character_stats', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('character_id'); // Clave foránea para relacionar con el personaje
+            $table->integer('fuerza');
+            $table->integer('destreza');
+            $table->integer('constitucion');
+            $table->integer('inteligencia');
+            $table->integer('sabiduria');
+            $table->integer('carisma');
             $table->timestamps();
         });
     }

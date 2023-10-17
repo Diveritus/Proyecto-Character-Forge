@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Personaje;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class PersonajeController extends Controller
@@ -12,7 +13,8 @@ class PersonajeController extends Controller
      */
     public function index()
     {
-        //
+        $personajes = Personaje::latest()->get();
+        return view('index',['personajes'=> $personajes]);
     }
 
     /**
@@ -20,15 +22,30 @@ class PersonajeController extends Controller
      */
     public function create()
     {
-        //
+        return view('create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request): RedirectResponse
+    {   
+        $request->validate(([
+            'nombre' => 'required',
+            'raza' => 'required|string',
+            'clase' => 'required|string',
+            'puntos_de_golpe' => 'required|integer',
+            'puntos_de_golpe_temporales' => 'required|integer',
+            'trasfondo' => 'required|string',
+            'historia' => 'required|string',
+            'habilidades_especiales' => 'required|string',
+            'objetos_magico' => 'required|string',
+        ]));
+        
+        Personaje::create($request->all());
+        
+        return redirect()->route('personajes.index')
+            ->with('success', 'Personaje creado exitosamente.');
     }
 
     /**
