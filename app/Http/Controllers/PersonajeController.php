@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Personaje;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use illuminate\View\View;
 
 class PersonajeController extends Controller
@@ -61,8 +62,9 @@ class PersonajeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Personaje $personaje)
+    public function edit($id): View
     {
+        $personaje = Personaje::find($id);
         return view('edit',['personaje'=> $personaje]);
     }
 
@@ -92,8 +94,10 @@ class PersonajeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Personaje $personaje)
+    public function destroy(Personaje $personaje): RedirectResponse
     {
-        //
+        $personaje->delete();
+        return redirect()->route('personajes.index')
+            ->with('success', 'Personaje eliminado exitosamente.');
     }
 }
