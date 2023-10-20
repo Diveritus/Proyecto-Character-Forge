@@ -33,18 +33,20 @@ class PersonajeController extends Controller
     public function store(Request $request): RedirectResponse
     {   
         $request->validate(([
-            'nombre' => 'required',
-            'raza' => 'required|string',
-            'clase' => 'required|string',
+            'nombre' => 'required|string|max:75',
+            'raza' => 'required|string|max:50',
+            'clase' => 'required|string|max: 30',
             'puntos_de_golpe' => 'required|integer',
             'puntos_de_golpe_temporales' => 'required|integer',
-            'trasfondo' => 'required|string',
-            'historia' => 'required|string',
-            'habilidades_especiales' => 'required|string',
-            'objetos_magico' => 'required|string',
+            'trasfondo' => 'required|string|max:50',
+            'historia' => 'required|string|max:300',
+            'habilidades_especiales' => 'required|string|max:200',
+            'objetos_magico' => 'required|string|max: 300',
         ]));
         
         Personaje::create($request->all());
+        
+
         
         return redirect()->route('personajes.index')
             ->with('success', 'Personaje creado exitosamente.');
@@ -74,15 +76,15 @@ class PersonajeController extends Controller
     public function update(Request $request, Personaje $personaje): RedirectResponse
     {
         $request->validate(([
-            'nombre' => 'required',
-            'raza' => 'required|string',
-            'clase' => 'required|string',
+            'nombre' => 'required|string|max:75',
+            'raza' => 'required|string|max:50',
+            'clase' => 'required|string|max: 30',
             'puntos_de_golpe' => 'required|integer',
             'puntos_de_golpe_temporales' => 'required|integer',
-            'trasfondo' => 'required|string',
-            'historia' => 'required|string',
-            'habilidades_especiales' => 'required|string',
-            'objetos_magico' => 'required|string',
+            'trasfondo' => 'required|string|max:50',
+            'historia' => 'required|string|max:300',
+            'habilidades_especiales' => 'required|string|max: 200',
+            'objetos_magico' => 'required|string|max: 300',
         ]));
 
         $personaje->update($request->all());
